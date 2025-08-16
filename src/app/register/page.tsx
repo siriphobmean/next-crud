@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Navbar from "../../components/Navbar";
+import Toast from "../../components/Toast"; // เพิ่มการ import Toast
 import styles from "./Register.module.css";
 
 export default function RegisterPage() {
@@ -8,43 +9,65 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState<"success" | "error" | "">("");
+  
+  // เปลี่ยนจาก message และ messageType เป็น toast state
+  const [toast, setToast] = useState<{
+    message: string;
+    type: "success" | "error";
+    isVisible: boolean;
+  }>({
+    message: "",
+    type: "error",
+    isVisible: false
+  });
 
   const validateForm = () => {
     if (!name.trim()) {
-      setMessage("Name is required");
-      setMessageType("error");
+      showToast("Name is required", "error");
       return false;
     }
     
     if (!email.trim()) {
-      setMessage("Email is required");
-      setMessageType("error");
+      showToast("Email is required", "error");
       return false;
     }
     
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      setMessage("Please enter a valid email address");
-      setMessageType("error");
+      showToast("Please enter a valid email address", "error");
       return false;
     }
     
     if (password.length < 6) {
-      setMessage("Password must be at least 6 characters long");
-      setMessageType("error");
+      showToast("Password must be at least 6 characters long", "error");
       return false;
     }
     
     return true;
   };
 
+  // ฟังก์ชันใหม่สำหรับแสดง toast
+  const showToast = (message: string, type: "success" | "error") => {
+    setToast({
+      message,
+      type,
+      isVisible: true
+    });
+  };
+
+  // ฟังก์ชันสำหรับปิด toast
+  const hideToast = () => {
+    setToast(prev => ({
+      ...prev,
+      isVisible: false
+    }));
+  };
+
   const handleRegister = async () => {
     if (!validateForm()) return;
 
     setLoading(true);
-    setMessage("");
+    hideToast(); // ปิด toast เก่าก่อน
     
     try {
       const res = await fetch("/api/auth/register", {
@@ -56,25 +79,22 @@ export default function RegisterPage() {
       const data = await res.json();
 
       if (res.ok) {
-        setMessage("Registration successful! 🎉 You can now login.");
-        setMessageType("success");
+        showToast("Registration successful! 🎉 You can now login.", "success");
         // Clear form
         setName("");
         setEmail("");
         setPassword("");
       } else {
-        setMessage(data.error || "Registration failed");
-        setMessageType("error");
+        showToast(data.error || "Registration failed", "error");
       }
     } catch (error) {
-      setMessage("Network error occurred");
-      setMessageType("error");
+      showToast("Network error occurred", "error");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleRegister();
     }
@@ -87,11 +107,7 @@ export default function RegisterPage() {
         <div className={styles.formCard}>
           <h1 className={styles.title}>Create Account</h1>
           
-          {message && (
-            <div className={`${styles.message} ${messageType === "success" ? styles.messageSuccess : styles.messageError}`}>
-              {message}
-            </div>
-          )}
+          {/* ลบ message div เก่าออก และใช้ Toast component แทน */}
           
           <div className={styles.inputGroup}>
             <input
@@ -138,6 +154,15 @@ export default function RegisterPage() {
           </button>
         </div>
       </div>
+      
+      {/* เพิ่ม Toast component */}
+      <Toast 
+        message={toast.message}
+        type={toast.type}
+        isVisible={toast.isVisible}
+        onClose={hideToast}
+        duration={4000}
+      />
     </div>
   );
 }

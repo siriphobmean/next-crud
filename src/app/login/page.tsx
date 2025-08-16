@@ -1,24 +1,50 @@
 "use client";
 import { useState } from "react";
 import Navbar from "../../components/Navbar";
+import Toast from "../../components/Toast"; // เพิ่มการ import Toast
 import styles from "./Login.module.css";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState<"success" | "error" | "">("");
+  
+  // เปลี่ยนจาก message และ messageType เป็น toast state
+  const [toast, setToast] = useState<{
+    message: string;
+    type: "success" | "error";
+    isVisible: boolean;
+  }>({
+    message: "",
+    type: "error",
+    isVisible: false
+  });
+
+  // ฟังก์ชันใหม่สำหรับแสดง toast
+  const showToast = (message: string, type: "success" | "error") => {
+    setToast({
+      message,
+      type,
+      isVisible: true
+    });
+  };
+
+  // ฟังก์ชันสำหรับปิด toast
+  const hideToast = () => {
+    setToast(prev => ({
+      ...prev,
+      isVisible: false
+    }));
+  };
 
   const handleLogin = async () => {
     if (!email || !password) {
-      setMessage("Please fill in all fields");
-      setMessageType("error");
+      showToast("Please fill in all fields", "error");
       return;
     }
 
     setLoading(true);
-    setMessage("");
+    hideToast(); // ปิด toast เก่าก่อน
     
     try {
       const res = await fetch("/api/auth/login", {
@@ -30,22 +56,19 @@ export default function LoginPage() {
       const data = await res.json();
       
       if (res.ok) {
-        setMessage("Login successful! 🎉");
-        setMessageType("success");
+        showToast("Login successful! 🎉", "success");
         // Redirect or handle success
       } else {
-        setMessage(data.error || "Login failed");
-        setMessageType("error");
+        showToast(data.error || "Login failed", "error");
       }
     } catch (error) {
-      setMessage("Network error occurred");
-      setMessageType("error");
+      showToast("Network error occurred", "error");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleLogin();
     }
@@ -58,11 +81,7 @@ export default function LoginPage() {
         <div className={styles.formCard}>
           <h1 className={styles.title}>Welcome Back</h1>
           
-          {message && (
-            <div className={`${styles.message} ${messageType === "success" ? styles.messageSuccess : styles.messageError}`}>
-              {message}
-            </div>
-          )}
+          {/* ลบ message div เก่าออก และใช้ Toast component แทน */}
           
           <div className={styles.inputGroup}>
             <input
@@ -97,6 +116,15 @@ export default function LoginPage() {
           </button>
         </div>
       </div>
+      
+      {/* เพิ่ม Toast component */}
+      <Toast 
+        message={toast.message}
+        type={toast.type}
+        isVisible={toast.isVisible}
+        onClose={hideToast}
+        duration={4000}
+      />
     </div>
   );
 }
