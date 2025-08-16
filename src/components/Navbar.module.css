@@ -11,11 +11,22 @@
   border-bottom: 2px solid #ff6b35; /* สีส้ม accent */
 }
 
+.titleLink {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.3s ease;
+}
+
+.titleLink:hover {
+  color: #ff6b35;
+}
+
 .title {
   font-size: 1.25rem;
   font-weight: 700;
   color: #ffffff;
   margin: 0;
+  transition: color 0.3s ease;
 }
 
 .navLinks {

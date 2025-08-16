@@ -5,7 +5,9 @@ import styles from "./Navbar.module.css";
 export default function Navbar() {
   return (
     <nav className={styles.navbar}>
-      <h1 className={styles.title}>User Management</h1>
+      <Link href="/" className={styles.titleLink}>
+        <h1 className={styles.title}>User Management</h1>
+      </Link>
       <div className={styles.navLinks}>
         <Link href="/register" className={styles.navLink}>
           Register
