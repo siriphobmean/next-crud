@@ -1,0 +1,66 @@
+/* Navbar.module.css */
+.navbar {
+  width: 100%;
+  background-color: #2d2d2d; /* เทาเข้ม */
+  color: #ffffff;
+  padding: 12px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-bottom: 2px solid #ff6b35; /* สีส้ม accent */
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.navLinks {
+  display: flex;
+  gap: 24px;
+}
+
+.navLink {
+  color: #e0e0e0;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.navLink:hover {
+  color: #ff6b35; /* สีส้ม */
+  background-color: rgba(255, 107, 53, 0.1);
+  border-color: #ff6b35;
+  text-decoration: none;
+}
+
+.navLink:active {
+  background-color: rgba(255, 107, 53, 0.2);
+  transform: translateY(1px);
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .navbar {
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+  }
+  
+  .navLinks {
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .navLink {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+}

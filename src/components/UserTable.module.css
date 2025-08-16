@@ -1,0 +1,137 @@
+/* UserTable.module.css */
+.container {
+  margin-top: 24px;
+  background-color: #1a1a1a; /* เทาเข้มกว่าเล็กน้อย */
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #ffffff;
+  border-bottom: 2px solid #ff6b35; /* เส้นใต้สีส้ม */
+  padding-bottom: 8px;
+  display: inline-block;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #2d2d2d;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.tableHeader {
+  background-color: #ff6b35; /* หัวตารางสีส้ม */
+  color: #ffffff;
+}
+
+.tableHeaderRow {
+  border: none;
+}
+
+.tableHeaderCell {
+  border: 1px solid #ff8c66; /* เส้นขอบสีส้มอ่อน */
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tableBody {
+  background-color: #2d2d2d;
+}
+
+.tableRow {
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #404040;
+}
+
+.tableRow:hover {
+  background-color: rgba(255, 107, 53, 0.1); /* hover สีส้มอ่อน */
+}
+
+.tableRow:last-child {
+  border-bottom: none;
+}
+
+.tableCell {
+  border-left: 1px solid #404040;
+  border-right: 1px solid #404040;
+  padding: 12px 16px;
+  color: #e0e0e0;
+  font-size: 0.9rem;
+}
+
+.tableCell:first-child {
+  border-left: none;
+  font-weight: 600;
+  color: #ff6b35; /* ID ใช้สีส้ม */
+}
+
+.tableCell:last-child {
+  border-right: none;
+}
+
+/* Loading state */
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #999999;
+  font-style: italic;
+}
+
+/* Empty state */
+.empty {
+  text-align: center;
+  padding: 40px;
+  color: #999999;
+}
+
+.empty::before {
+  content: "📋";
+  display: block;
+  font-size: 2rem;
+  margin-bottom: 16px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: 6px;
+  }
+  
+  .table {
+    font-size: 0.8rem;
+  }
+  
+  .tableHeaderCell,
+  .tableCell {
+    padding: 8px 12px;
+  }
+  
+  .title {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .tableHeaderCell,
+  .tableCell {
+    padding: 6px 8px;
+    font-size: 0.75rem;
+  }
+  
+  .tableHeaderCell {
+    letter-spacing: 0.2px;
+  }
+}

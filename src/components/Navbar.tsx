@@ -1,18 +1,19 @@
 "use client";
 import Link from "next/link";
+import styles from "./Navbar.module.css";
 
 export default function Navbar() {
   return (
-    <nav className="w-full bg-blue-600 text-white px-6 py-3 flex justify-between items-center">
-      <h1 className="text-xl font-bold">User Management</h1>
-      <div className="space-x-4">
-        <Link href="/register" className="hover:underline">
+    <nav className={styles.navbar}>
+      <h1 className={styles.title}>User Management</h1>
+      <div className={styles.navLinks}>
+        <Link href="/register" className={styles.navLink}>
           Register
         </Link>
-        <Link href="/login" className="hover:underline">
+        <Link href="/login" className={styles.navLink}>
           Login
         </Link>
-        <Link href="/dashboard" className="hover:underline">
+        <Link href="/dashboard" className={styles.navLink}>
           Dashboard
         </Link>
       </div>
