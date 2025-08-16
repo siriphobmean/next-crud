@@ -15,8 +15,8 @@ export default function Navbar() {
         <Link href="/login" className={styles.navLink}>
           Login
         </Link>
-        <Link href="/dashboard" className={styles.navLink}>
-          Dashboard
+        <Link href="/user-management" className={styles.navLink}>
+          User Management
         </Link>
       </div>
     </nav>
